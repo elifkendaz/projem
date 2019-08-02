@@ -27,10 +27,7 @@ public class MusteriGiris extends JDialog {
 	MusteriIslemleri islemler = new MusteriIslemleri();
 	private JTextField aramacubugu;
 	
-	
-	
-	
-	
+
 	/**
 	 * Launch the application.
 	 */
