@@ -9,8 +9,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.JLabel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MusteriGiris extends JDialog {
 
@@ -18,6 +25,7 @@ public class MusteriGiris extends JDialog {
 	private JTable musteritablosu;
 	DefaultTableModel model;
 	MusteriIslemleri islemler = new MusteriIslemleri();
+	private JTextField aramacubugu;
 	
 	
 	
@@ -68,24 +76,24 @@ public class MusteriGiris extends JDialog {
 	
 
 	public MusteriGiris() {
-		setBounds(100, 100, 940, 733);
+		setBounds(100, 100, 1250, 733);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
-			panel.setBounds(0, 0, 854, 320);
+			panel.setBounds(0, 0, 1198, 320);
 			contentPanel.add(panel);
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBounds(15, 373, 888, 278);
+			panel.setBounds(15, 373, 1198, 278);
 			contentPanel.add(panel);
 			panel.setLayout(null);
 			{
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(-57, 16, 984, 277);
+				scrollPane.setBounds(0, 0, 1201, 262);
 				panel.add(scrollPane);
 				{
 					musteritablosu = new JTable();
@@ -105,10 +113,42 @@ public class MusteriGiris extends JDialog {
 		listele.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				musteriGoruntule();
+				
 			}
 		});
-		listele.setBounds(776, 339, 115, 29);
+		listele.setBounds(470, 328, 175, 29);
 		contentPanel.add(listele);
+		
+		aramacubugu = new JTextField();
+		aramacubugu.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				String ara = aramacubugu.getText();
+				
+				dinamikAra(ara);
+				
+				
+			}
+
+			private void dinamikAra(String ara) {
+				TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+				
+				musteritablosu.setRowSorter(tr);
+				
+			tr.setRowFilter(RowFilter.regexFilter(ara));
+			
+				
+			}
+		});
+		
+		
+		aramacubugu.setBounds(942, 331, 256, 26);
+		contentPanel.add(aramacubugu);
+		aramacubugu.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Dinamik Ara");
+		lblNewLabel.setBounds(830, 336, 139, 20);
+		contentPanel.add(lblNewLabel);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
